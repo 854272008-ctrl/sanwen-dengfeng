@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>三问登峰 · 鑫贝帝罗浮山</title>
+<style>
+  :root{
+    --ink:#231a16;--ink-soft:#6b5f57;--bg:#faf6f3;--card:#fff;--line:#eed9cf;
+    --red:#c8201c;--red-deep:#8e1013;--orange:#f0732b;--red-soft:#fdecea;
+    --grad:linear-gradient(135deg,var(--red-deep),var(--red) 55%,var(--orange));
+    --shadow:0 8px 28px rgba(140,20,15,.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{
+    font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);
+    color:var(--ink);min-height:100vh;line-height:1.7;
+  }
+  .page{max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+
+  /* 顶部红带 */
+  .band{
+    background:var(--grad);color:#fff;padding:34px 24px 44px;text-align:center;
+    position:relative;overflow:hidden;
+  }
+  .band::after{
+    content:"";position:absolute;left:0;right:0;bottom:-1px;height:26px;background:var(--bg);
+    border-radius:26px 26px 0 0;
+  }
+  .band .k{font-size:12px;letter-spacing:4px;opacity:.85}
+  .band h1{font-size:30px;font-weight:900;letter-spacing:4px;margin-top:8px}
+  .band .slogan{margin-top:10px;font-size:13px;letter-spacing:2px;opacity:.92}
+  .band .tag{
+    display:inline-block;margin-top:14px;font-size:12px;font-weight:700;letter-spacing:2px;
+    border:1.5px solid rgba(255,255,255,.8);border-radius:999px;padding:4px 14px;
+  }
+
+  .body{flex:1;padding:22px 20px 40px}
+
+  /* 首页问题卡 */
+  .q-link{
+    display:block;background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px;margin-bottom:16px;text-decoration:none;color:var(--ink);
+    box-shadow:0 3px 12px rgba(140,20,15,.06);position:relative;
+  }
+  .q-link:active{transform:scale(.985)}
+  .q-link .no{
+    position:absolute;top:-12px;left:18px;background:var(--grad);color:#fff;
+    font-size:13px;font-weight:800;letter-spacing:2px;padding:3px 14px;border-radius:999px;
+  }
+  .q-link .when{font-size:12px;color:var(--red);font-weight:700;letter-spacing:2px;margin-top:6px}
+  .q-link h3{font-size:19px;margin:6px 0 4px;line-height:1.5}
+  .q-link p{font-size:13px;color:var(--ink-soft)}
+  .q-link .go{
+    position:absolute;right:18px;top:50%;transform:translateY(-50%);
+    color:var(--red);font-size:22px;font-weight:900;
+  }
+  .wall-link{
+    display:block;text-align:center;margin-top:6px;padding:15px;border-radius:14px;
+    background:var(--ink);color:#f5f1e8;text-decoration:none;font-weight:800;letter-spacing:2px;font-size:15px;
+  }
+  .tip-line{text-align:center;font-size:12px;color:var(--ink-soft);margin-top:18px;letter-spacing:1px}
+
+  /* 答题页 */
+  .qhead{margin-bottom:18px}
+  .qhead .no{
+    display:inline-block;background:var(--grad);color:#fff;font-size:13px;font-weight:800;
+    letter-spacing:2px;padding:4px 14px;border-radius:999px;
+  }
+  .qhead .when{font-size:13px;color:var(--red);font-weight:700;letter-spacing:2px;margin-top:12px}
+  .qhead h2{font-size:23px;line-height:1.55;margin-top:6px;font-weight:900}
+  .qhead .hint{font-size:13px;color:var(--ink-soft);margin-top:8px}
+  textarea{
+    width:100%;min-height:130px;border:2px solid var(--line);border-radius:14px;
+    padding:14px 16px;font-size:16px;font-family:inherit;line-height:1.7;resize:vertical;
+    background:var(--card);color:var(--ink);outline:none;
+  }
+  textarea:focus{border-color:var(--red)}
+  .row{display:flex;gap:12px;margin-top:16px}
+  .btn{
+    flex:1;border:none;border-radius:14px;padding:15px;font-size:16px;font-weight:800;
+    letter-spacing:3px;cursor:pointer;font-family:inherit;
+  }
+  .btn-primary{background:var(--grad);color:#fff;box-shadow:0 6px 18px rgba(200,32,28,.3)}
+  .btn-primary:active{transform:scale(.98)}
+  .btn-ghost{background:#fff;color:var(--red);border:1.5px solid var(--red);flex:0 0 auto;padding:15px 20px;letter-spacing:1px}
+  .count{text-align:right;font-size:12px;color:var(--ink-soft);margin-top:6px}
+  .done{
+    background:var(--card);border:2px solid var(--red);border-radius:16px;padding:26px 22px;
+    text-align:center;box-shadow:var(--shadow);
+  }
+  .done .ic{font-size:38px}
+  .done h3{font-size:20px;margin:10px 0 6px;color:var(--red)}
+  .done p{font-size:14px;color:var(--ink-soft)}
+  .progress-wrap{margin:20px 0 4px}
+  .progress-info{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-soft);margin-bottom:6px}
+  .progress-info b{color:var(--red)}
+  .progress{height:10px;background:var(--red-soft);border-radius:99px;overflow:hidden}
+  .progress i{display:block;height:100%;background:var(--grad);border-radius:99px;transition:width .5s}
+
+  /* 回响墙 */
+  .wall-stats{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;
+  }
+  .stat{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 8px;text-align:center;
+  }
+  .stat .n{font-size:24px;font-weight:900;color:var(--red)}
+  .stat .l{font-size:11px;color:var(--ink-soft);letter-spacing:1px}
+  .wall-q{margin-bottom:24px}
+  .wall-q h3{
+    font-size:16px;margin-bottom:10px;padding-left:12px;border-left:4px solid var(--red);line-height:1.5;
+  }
+  .ans{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:13px 15px;font-size:14px;margin-bottom:9px;line-height:1.7;
+  }
+  .ans .meta{font-size:11px;color:var(--ink-soft);margin-top:5px}
+  .empty{font-size:13px;color:var(--ink-soft);padding:8px 2px}
+  .nav{
+    display:flex;gap:10px;padding:12px 20px;background:#fff;border-top:1px solid var(--line);
+    position:sticky;bottom:0;
+  }
+  .nav a{
+    flex:1;text-align:center;text-decoration:none;color:var(--ink-soft);font-size:13px;font-weight:700;
+    padding:8px 0;border-radius:10px;
+  }
+  .nav a.on{color:var(--red);background:var(--red-soft)}
+  .refresh{font-size:12px;color:var(--ink-soft);text-align:center;margin:4px 0 14px}
+</style>
+</head>
+<body>
+<div class="page" id="app"></div>
+
+<script>
+const API = (window.__API_BASE__ || '').replace(/\/$/,'');
+const api = p => API + p;
+const QUESTIONS = {
+  1: { no:'第 壹 问', when:'山脚之问 · 车上 / 入园时',
+       title:'平路走惯了,我们为什么必须爬坡?',
+       hint:'泛品带给我们什么,又卡住了我们什么?从各自的业务体感说,一两句就行。' },
+  2: { no:'第 贰 问', when:'半山之问 · 缆车上',
+       title:'从泛品到产品驱动,最难的那道坎是什么?',
+       hint:'是选品、供应链、组织,还是心态?把最硬的那块骨头写出来。' },
+  3: { no:'第 叁 问', when:'登顶之问 · 小飞云顶',
+       title:'站在高处看,下半年我们凭什么赢?',
+       hint:'每人一句:要靠哪款产品、哪项能力,站上高质量增长的高地。' }
+};
+const TARGET = 23;
+
+const app = document.getElementById('app');
+const param = new URLSearchParams(location.search);
+const view = param.get('v') || 'home';
+const q = parseInt(param.get('q') || '1', 10);
+
+function band(sub){
+  return `<div class="band">
+    <div class="k">2026 鑫贝帝 · 罗浮山团队熔炼</div>
+    <h1>三问登峰</h1>
+    <div class="slogan">一个都不能少 · 一句都不能缺</div>
+    ${sub ? `<div class="tag">${sub}</div>` : ''}
+  </div>`;
+}
+function nav(on){
+  return `<div class="nav">
+    <a href="?" class="${on==='home'?'on':''}">🏠 首页</a>
+    <a href="?v=wall" class="${on==='wall'?'on':''}">🔁 回响墙</a>
+  </div>`;
+}
+
+/* ---------- 首页 ---------- */
+function renderHome(){
+  app.innerHTML = band('手机扫码 · 匿名作答') + `
+  <div class="body">
+    ${[1,2,3].map(i=>`
+      <a class="q-link" href="?v=q&q=${i}">
+        <span class="no">${QUESTIONS[i].no}</span>
+        <div class="when">${QUESTIONS[i].when}</div>
+        <h3>「${QUESTIONS[i].title}」</h3>
+        <p>${QUESTIONS[i].hint}</p>
+        <span class="go">›</span>
+      </a>`).join('')}
+    <a class="wall-link" href="?v=wall">🔁 去回响墙,看大家都写了什么</a>
+    <div class="tip-line">匿名提交 · 每问限时至下一问抛出前 · 23 人就该有 23 句</div>
+  </div>` + nav('home');
+}
+
+/* ---------- 答题页 ---------- */
+function renderQuestion(){
+  const Q = QUESTIONS[q] || QUESTIONS[1];
+  const answered = localStorage.getItem('sanwen_q' + q);
+  app.innerHTML = band(`${Q.no} / 共 三 问`) + `
+  <div class="body">
+    <div class="qhead">
+      <span class="no">${Q.no}</span>
+      <div class="when">${Q.when}</div>
+      <h2>「${Q.title}」</h2>
+      <div class="hint">${Q.hint}</div>
+    </div>
+    <div id="formBox">
+      ${answered ? `<div class="done" style="margin-bottom:16px"><div class="ic">✅</div>
+        <h3>你已答过这一问</h3><p>提交内容:${answered}<br>如需补充可再写一条。</p></div>` : ''}
+      <textarea id="txt" maxlength="200" placeholder="写一两句就好,匿名的,放开写…"></textarea>
+      <div class="count"><span id="cnt">0</span> / 200</div>
+      <div class="row">
+        <button class="btn btn-ghost" onclick="location='?'">返回</button>
+        <button class="btn btn-primary" id="submitBtn" onclick="submit()">交 卷</button>
+      </div>
+    </div>
+    <div id="doneBox"></div>
+  </div>` + nav('');
+  const txt = document.getElementById('txt');
+  txt.addEventListener('input', ()=> document.getElementById('cnt').textContent = txt.value.length);
+}
+
+async function submit(){
+  const txt = document.getElementById('txt');
+  const t = txt.value.trim();
+  if(!t){ txt.focus(); txt.style.borderColor = 'var(--red)'; return; }
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = '提交中…';
+  try{
+    const r = await fetch(api('/api/answer'), {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ q, text: t })
+    });
+    const d = await r.json();
+    if(!d.ok) throw new Error(d.msg || 'err');
+    localStorage.setItem('sanwen_q' + q, t);
+    showDone(d.n, d.dup);
+  }catch(e){
+    btn.disabled = false; btn.textContent = '交 卷';
+    alert(e.message && e.message !== 'err' ? e.message : '网络开了小差,内容已保留,再点一次交卷');
+  }
+}
+
+async function showDone(n, dup){
+  const s = await (await fetch(api('/api/stats'))).json();
+  const me = [1,2,3].filter(i=>localStorage.getItem('sanwen_q'+i)).length;
+  document.getElementById('formBox').style.display = 'none';
+  document.getElementById('doneBox').innerHTML = `
+    <div class="done">
+      <div class="ic">🏔</div>
+      <h3>${dup ? '这句收到过啦' : '收到,已上墙!'}</h3>
+      <p>本问已有 <b style="color:var(--red)">${n}</b> / ${TARGET} 人作答</p>
+      <div class="progress-wrap">
+        <div class="progress-info"><span>全程三问 · 你已完成 <b>${me}</b> / 3</span><span>目标 23/23</span></div>
+        <div class="progress"><i style="width:${Math.round(me/3*100)}%"></i></div>
+      </div>
+      <div class="row" style="margin-top:20px">
+        ${q < 3 ? `<button class="btn btn-primary" onclick="location='?v=q&q=${q+1}'">下一问 ›</button>`
+                : `<button class="btn btn-primary" onclick="location='?v=wall'">去看回响墙 ›</button>`}
+      </div>
+      <div class="tip-line" style="margin-top:14px">队伍要齐,心声也要齐</div>
+    </div>`;
+  window.scrollTo(0,0);
+}
+
+/* ---------- 回响墙 ---------- */
+async function renderWall(){
+  app.innerHTML = band('晚宴回响 · 实时更新') + `
+  <div class="body" id="wallBody"><div class="empty">加载中…</div></div>` + nav('wall');
+  await loadWall();
+  setInterval(loadWall, 8000);
+}
+async function loadWall(){
+  const el = document.getElementById('wallBody');
+  if(!el) return;
+  let answers, s;
+  try{
+    [answers, s] = await Promise.all([
+      (await fetch(api('/api/answers'))).json(),
+      (await fetch(api('/api/stats'))).json()
+    ]);
+  }catch(e){
+    const rf = el.querySelector('.refresh');
+    if(rf) rf.textContent = '刷新失败,8 秒后自动重试…';
+    return;
+  }
+  el.innerHTML = `
+    <div class="wall-stats">
+      ${[1,2,3].map(i=>`<div class="stat"><div class="n">${s['q'+i]||0}<span style="font-size:13px;color:var(--ink-soft)">/${s.target}</span></div><div class="l">${QUESTIONS[i].no.replace(' ','')}</div></div>`).join('')}
+    </div>
+    ${[1,2,3].map(i=>{
+      const list = (answers||[]).filter(a=>a.q===i).sort((a,b)=>b.ts-a.ts);
+      return `<div class="wall-q">
+        <h3>${QUESTIONS[i].no} · ${QUESTIONS[i].title}</h3>
+        ${list.length ? list.map(a=>`
+          <div class="ans">${(a.text||'').replace(/</g,'&lt;')}
+            <div class="meta">匿名 · ${new Date(a.ts).toTimeString().slice(0,5)}</div>
+          </div>`).join('')
+        : `<div class="empty">还没有人作答,等第一句心声。</div>`}
+      </div>`;
+    }).join('')}
+    <div class="refresh">每 8 秒自动刷新 · 晚宴就翻这页</div>`;
+}
+
+if(view === 'q') renderQuestion();
+else if(view === 'wall') renderWall();
+else renderHome();
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "sanwen-dengfeng",
+  "version": "2.0.0",
+  "description": "鑫贝帝罗浮山团队熔炼 · 三问登峰作答页(公网版,render+PostgreSQL)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

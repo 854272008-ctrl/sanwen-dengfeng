@@ -1,0 +1,15 @@
+# render Blueprint —— 一键创建服务(在 render 控制台 New → Blueprint 选本仓库)
+# 环境变量 DATABASE_URL / ADMIN_KEY 需在 render 手动填值(sync: false)
+services:
+  - type: web
+    name: sanwen-dengfeng
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: ADMIN_KEY
+        sync: false

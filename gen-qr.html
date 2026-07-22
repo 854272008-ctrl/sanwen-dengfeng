@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>三问登峰 · 二维码生成</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#faf6f3;margin:0;padding:30px;color:#231a16}
+  .wrap{max-width:900px;margin:0 auto}
+  h1{font-size:22px;text-align:center;color:#c8201c;letter-spacing:2px}
+  .bar{background:#fff;border:1px solid #eed9cf;border-radius:12px;padding:16px 18px;margin:18px 0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .bar label{font-weight:700;font-size:14px}
+  .bar input{flex:1;min-width:280px;padding:10px 14px;border:2px solid #eed9cf;border-radius:8px;font-size:15px;outline:none}
+  .bar input:focus{border-color:#c8201c}
+  .bar button{padding:10px 22px;border:none;border-radius:8px;background:linear-gradient(135deg,#8e1013,#c8201c 55%,#f0732b);color:#fff;font-weight:800;cursor:pointer;font-size:14px;letter-spacing:2px}
+  .tip{font-size:13px;color:#6b5f57;text-align:center;margin:6px 0 20px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+  .card{background:#fff;border:1px solid #eed9cf;border-radius:14px;padding:20px;text-align:center;box-shadow:0 3px 12px rgba(140,20,15,.06)}
+  .card .tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:2px;color:#fff;background:linear-gradient(135deg,#8e1013,#c8201c 55%,#f0732b);padding:3px 14px;border-radius:999px;margin-bottom:10px}
+  .card .url{font-size:11px;color:#6b5f57;word-break:break-all;margin-top:8px;line-height:1.4}
+  .card .qrcode{display:flex;justify-content:center}
+  .card .qrcode img,.card .qrcode canvas{display:block}
+  @media print{.bar,.tip{display:none}body{padding:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>三问登峰 · 二维码生成</h1>
+  <div class="bar">
+    <label>公网域名</label>
+    <input id="base" value="https://sanwen-dengfeng.onrender.com" placeholder="填 render 或公司服务器域名,不带末尾斜杠">
+    <button onclick="gen()">生成 5 个码</button>
+  </div>
+  <div class="tip">部署后把 render 给的地址粘到上面,点生成;每个码可右键「图片另存为」保存 PNG,或整页打印。</div>
+  <div class="grid" id="grid"></div>
+</div>
+<script>
+const ITEMS = [
+  { tag:'首页 · 入口',      path:'/' },
+  { tag:'第 壹 问 · 山脚之问', path:'/?v=q&q=1' },
+  { tag:'第 贰 问 · 半山之问', path:'/?v=q&q=2' },
+  { tag:'第 叁 问 · 登顶之问', path:'/?v=q&q=3' },
+  { tag:'回响墙 · 晚宴',    path:'/?v=wall' }
+];
+function gen(){
+  const base = document.getElementById('base').value.trim().replace(/\/$/,'');
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  ITEMS.forEach(it => {
+    const url = base + it.path;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `<div class="tag">${it.tag}</div><div class="qrcode"></div><div class="url">${url}</div>`;
+    grid.appendChild(card);
+    new QRCode(card.querySelector('.qrcode'), { text:url, width:180, height:180, correctLevel:QRCode.CorrectLevel.M });
+  });
+}
+gen();
+</script>
+</body>
+</html>
